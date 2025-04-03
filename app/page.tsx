@@ -79,7 +79,7 @@ export default function Splash() {
         </div>
         
         <h1 className="text-5xl font-bold text-white mb-4 animate-fadeIn">
-          Love Calculator
+        Hridaya Soochika
         </h1>
         
         <p className="text-white text-xl mb-8 opacity-90 animate-fadeIn" style={{ animationDelay: '0.3s' }}>

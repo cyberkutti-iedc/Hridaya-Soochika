@@ -82,7 +82,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-6 bg-gradient-to-r from-pink-200 via-red-100 to-pink-200">
       <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-6">
         <h1 className="text-3xl font-bold text-center text-pink-600 mb-4">
-          Love Calculator
+        Hridaya-Soochika - Love Calculator
         </h1>
         
         <div className="mb-6 p-4 bg-pink-50 rounded-lg italic text-center">
