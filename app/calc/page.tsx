@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+
 import UserForm from '@/components/UserForm';
 import PartnerForm from '@/components/PartnerForm';
 import Preview from '@/components/Preview';
@@ -86,8 +86,9 @@ export default function Home() {
         </h1>
         
         <div className="mb-6 p-4 bg-pink-50 rounded-lg italic text-center">
-          "{quote}"
-        </div>
+  &quot;{quote}&quot;
+</div>
+
         
         {step === 1 && (
           <UserForm initialData={userData} onSubmit={handleUserSubmit} />

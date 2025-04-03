@@ -3,14 +3,22 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+type Heart = {
+  fontSize: string;
+  left: string;
+  top: string;
+  animationDuration: string;
+  animationDelay: string;
+};
+
 export default function Splash() {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
-  const [hearts, setHearts] = useState<any[]>([]);
+  const [hearts, setHearts] = useState<Heart[]>([]);
 
   useEffect(() => {
     // Set random heart animation values after component mounts
-    const randomHearts = [...Array(20)].map(() => ({
+    const randomHearts = Array.from({ length: 20 }, () => ({
       fontSize: `${Math.random() * 2 + 1}rem`,
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,

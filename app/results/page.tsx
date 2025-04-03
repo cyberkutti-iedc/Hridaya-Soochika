@@ -7,7 +7,15 @@ import ResultCard from '@/components/ResultCard';
 export default function Results() {
   const searchParams = useSearchParams();
   const compatibility = searchParams.get('compatibility') || '0';
-  const details = searchParams.get('details') ? JSON.parse(decodeURIComponent(searchParams.get('details') || '{}')) : {};
+  let details = {};
+
+  try {
+    const detailsParam = searchParams.get('details');
+    details = detailsParam ? JSON.parse(decodeURIComponent(detailsParam)) : {};
+  } catch (error) {
+    console.error('Error parsing details:', error);
+    details = {};
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center p-6 bg-gradient-to-r from-pink-200 via-red-100 to-pink-200">
@@ -16,7 +24,7 @@ export default function Results() {
           Your Love Compatibility
         </h1>
         
-        <ResultCard compatibility={parseFloat(compatibility)} details={details} />
+        <ResultCard compatibility={parseFloat(compatibility) || 0} details={details} />
         
         <div className="mt-8 text-center">
           <Link 
