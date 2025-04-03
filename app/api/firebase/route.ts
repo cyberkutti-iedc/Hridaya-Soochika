@@ -1,3 +1,4 @@
+// app/api/firebase/route.ts
 import { NextResponse } from 'next/server';
 import { database } from '@/lib/firebase';
 import { ref, push, serverTimestamp } from 'firebase/database';
@@ -16,33 +17,36 @@ export async function POST(request: Request) {
     
     const { user, partner, result } = body;
     
-    // Get current date and time in Indian Standard Time (IST)
+    // Get current date and time details
     const now = new Date();
-    const indiaTime = new Intl.DateTimeFormat('en-IN', {
-      timeZone: 'Asia/Kolkata',
+    const formattedDate = now.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric',
+      day: 'numeric'
+    });
+    const formattedTime = now.toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
       hour12: true
-    }).format(now);
+    });
     
     // Create a new entry in the 'calculations' collection
     const calculationsRef = ref(database, 'calculations');
     
+    // Use a try-catch specifically for the Firebase operation
     try {
       await push(calculationsRef, {
+        // Timestamp information
         timestamp: {
           serverTimestamp: serverTimestamp(),
-          date: indiaTime.split(',')[0],  // Extracts "April 3, 2025"
-          time: indiaTime.split(',')[1]?.trim(), // Extracts "11:15:30 PM"
+          date: formattedDate,
+          time: formattedTime,
           isoString: now.toISOString(),
           unix: Math.floor(now.getTime() / 1000)
         },
         
-        // User information
+        // User information - organized by category
         userInfo: {
           fullName: user.fullName || 'Anonymous',
           dob: user.dob || '',
@@ -51,7 +55,7 @@ export async function POST(request: Request) {
           gender: user.gender || '',
         },
         
-        // Partner information
+        // Partner information - organized by category
         partnerInfo: {
           fullName: partner.fullName || 'Anonymous',
           dob: partner.dob || '',
@@ -59,7 +63,7 @@ export async function POST(request: Request) {
           gender: partner.gender || '',
         },
         
-        // Result information
+        // Result information - all calculation related data
         resultInfo: {
           compatibilityScore: result,
           compatibilityPercentage: `${result}%`,
@@ -95,6 +99,7 @@ function calculateAge(dob: string): number | null {
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDifference = today.getMonth() - birthDate.getMonth();
     
+    // Adjust age if birthday hasn't occurred yet this year
     if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
